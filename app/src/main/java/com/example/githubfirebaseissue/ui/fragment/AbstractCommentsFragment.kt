@@ -37,7 +37,7 @@ abstract class AbstractCommentsFragment : BaseFragment() {
 
     private fun observeDataChange() {
         viewModel.loadingState.observe(viewLifecycleOwner, Observer { showLoadingState(it) })
-        viewModel.apiError.observe(viewLifecycleOwner, EventObserver { onError(it) })
+        viewModel.apiError.observe(viewLifecycleOwner, EventObserver { handleError(it) })
         viewModel.commentsLiveData.observe(viewLifecycleOwner, EventObserver {
             if (it.isNotEmpty())
                 setCommentsData(it)

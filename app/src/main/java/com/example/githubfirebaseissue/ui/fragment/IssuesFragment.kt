@@ -58,8 +58,8 @@ class IssuesFragment : AbstractIssueFragment(), IAdapterCallback {
             progress.visibility = View.GONE
     }
 
-    override fun onError(th: Throwable) {
-        th.message?.let { showToast(it) }
+    override fun onError(message: String) {
+        showToast(message)
     }
 
 
@@ -70,7 +70,4 @@ class IssuesFragment : AbstractIssueFragment(), IAdapterCallback {
         )
     }
 
-    override fun showNetworkError() {
-        showErrorDialog(getString(R.string.internet_error),getString(R.string.close))
-    }
 }

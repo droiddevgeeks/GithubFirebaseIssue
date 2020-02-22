@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.githubfirebaseissue.R
 import dagger.android.support.AndroidSupportInjection
+import okio.IOException
+import retrofit2.HttpException
 
 
 abstract class BaseFragment : Fragment() {
@@ -55,6 +57,19 @@ abstract class BaseFragment : Fragment() {
         dialog.show()
     }
 
+    protected fun handleError(th: Throwable) {
+        val error = when (th) {
+            is HttpException -> when (th.code()) {
+                401 -> getString(R.string.error_unauthorized)
+                500 -> getString(R.string.error_server)
+                else -> getString(R.string.error_server)
+            }
+            is IOException -> getString(R.string.internet_error)
+            else -> getString(R.string.error_server)
+        }
+        onError(error)
+    }
+
     /**
      * This method is called after view has been created.
      * This method should be used to initialize all views that are needed to be created (and recreated after fragment is reattached)
@@ -64,6 +79,6 @@ abstract class BaseFragment : Fragment() {
 
     abstract fun getLayoutRes(): Int
     abstract fun showLoadingState(loading: Boolean)
-    abstract fun onError(th: Throwable)
+    abstract fun onError(message: String)
 
 }

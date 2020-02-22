@@ -60,8 +60,8 @@ class CommentsFragment : AbstractCommentsFragment() {
             progress.visibility = View.GONE
     }
 
-    override fun onError(th: Throwable) {
-        th.message?.let { showToast(it) }
+    override fun onError(message: String) {
+        showToast(message)
     }
 
 }

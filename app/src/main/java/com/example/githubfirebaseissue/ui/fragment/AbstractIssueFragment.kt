@@ -24,10 +24,7 @@ abstract class AbstractIssueFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (ApplicationUtil.hasNetwork(context!!))
-            viewModel.fetchFireBaseIosIssueList()
-        else
-            showNetworkError()
+        viewModel.fetchFireBaseIosIssueList()
     }
 
     override fun viewInitialization(view: View) {
@@ -37,7 +34,7 @@ abstract class AbstractIssueFragment : BaseFragment() {
 
     private fun observeDataChange() {
         viewModel.loadingState.observe(viewLifecycleOwner, Observer { showLoadingState(it) })
-        viewModel.apiError.observe(viewLifecycleOwner, EventObserver { onError(it) })
+        viewModel.apiError.observe(viewLifecycleOwner, EventObserver { handleError(it) })
         viewModel.issueLiveData.observe(viewLifecycleOwner, EventObserver {
             setIssuesData(it)
         })
@@ -45,6 +42,5 @@ abstract class AbstractIssueFragment : BaseFragment() {
 
 
     abstract fun setIssuesData(list: List<Issue>)
-    abstract fun showNetworkError()
 
 }

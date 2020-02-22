@@ -4,4 +4,6 @@
     <string name="go_back">Go Back</string>
     <string name="internet_error">Please check Internet</string>
     <string name="close">Close</string>
+    <string name="error_unauthorized">User Not Authorised</string>
+    <string name="error_server">Something went wrong. Please try later</string>
 </resources>
