@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GithubFirebaseIssue</string>
+    <string name="no_comment">No Comments available</string>
+    <string name="go_back">Go Back</string>
+    <string name="internet_error">Please check Internet</string>
+    <string name="close">Close</string>
+</resources>
