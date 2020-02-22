@@ -37,6 +37,7 @@ class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUse
             .doOnSubscribe { loadingState.value = true }
             .doOnEvent { _, _ -> loadingState.value = false }
             .doOnError { loadingState.value = false }
+            .map { it.sortedByDescending { issue -> issue.updatedAt } }
             .subscribe(
                 { Event(it).run(_issueLiveData::postValue) }
                 ,
