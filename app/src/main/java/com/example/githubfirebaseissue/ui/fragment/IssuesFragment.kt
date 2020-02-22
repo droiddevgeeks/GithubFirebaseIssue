@@ -53,9 +53,11 @@ class IssuesFragment : AbstractIssueFragment(), IAdapterCallback {
 
     override fun showLoadingState(loading: Boolean) {
         if (loading)
-            progress.visibility = View.VISIBLE
-        else
-            progress.visibility = View.GONE
+            shimmer_view_container.startShimmerAnimation()
+        else {
+            shimmer_view_container.stopShimmerAnimation()
+            shimmer_view_container.visibility = View.GONE
+        }
     }
 
     override fun onError(message: String) {

@@ -6,4 +6,7 @@
     <dimen name="size_20">20sp</dimen>
     <dimen name="size_12">12sp</dimen>
     <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="dimen_140">140dp</dimen>
+    <dimen name="dimen_8">8dp</dimen>
 </resources>
