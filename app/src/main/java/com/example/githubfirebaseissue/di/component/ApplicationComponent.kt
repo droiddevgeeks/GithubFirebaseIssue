@@ -20,13 +20,6 @@ import dagger.android.support.AndroidSupportInjectionModule
 )
 interface ApplicationComponent : AndroidInjector<GithubApplication> {
 
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: GithubApplication): Builder
-
-        fun build(): ApplicationComponent
-    }
-
-    override fun inject(app: GithubApplication)
+    @Component.Factory
+    abstract class Builder: AndroidInjector.Factory<GithubApplication>
 }
