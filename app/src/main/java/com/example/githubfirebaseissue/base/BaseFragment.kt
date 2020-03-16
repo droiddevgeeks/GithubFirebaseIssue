@@ -39,7 +39,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun showErrorDialog(message: String, actionText: String) {
-        val dialog = Dialog(context!!)
+        val dialog = Dialog(requireContext())
         with(dialog) {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)

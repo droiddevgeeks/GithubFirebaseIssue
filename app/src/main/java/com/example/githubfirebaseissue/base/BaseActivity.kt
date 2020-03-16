@@ -8,21 +8,15 @@ import dagger.android.support.HasSupportFragmentInjector
 import dagger.android.DispatchingAndroidInjector
 import javax.inject.Inject
 import dagger.android.AndroidInjector
+import dagger.android.support.DaggerAppCompatActivity
 
 
-abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
-
-    @Inject
-    lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+abstract class BaseActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return fragmentDispatchingAndroidInjector
     }
 
     fun replaceFragment(
