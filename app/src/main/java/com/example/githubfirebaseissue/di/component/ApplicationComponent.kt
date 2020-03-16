@@ -5,7 +5,6 @@ import com.example.githubfirebaseissue.di.module.ApiModule
 import com.example.githubfirebaseissue.di.module.ActivityBindingModule
 import com.example.githubfirebaseissue.di.module.ViewModelModule
 import com.example.githubfirebaseissue.di.scope.AppScope
-import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
