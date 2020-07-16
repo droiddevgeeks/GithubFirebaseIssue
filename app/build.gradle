@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileSdkVersion 29
@@ -35,6 +36,13 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        junitPlatform {
+            filters {
+                engines {
+                    include 'spek'
+                }
+            }
+        }
     }
 }
 
@@ -90,6 +98,7 @@ dependencies {
 
     //testing
     testImplementation "android.arch.core:core-testing:1.1.1"
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "com.jraska.livedata:testing-ktx:$jraska_version"
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-inline:$mockito_version"
@@ -98,4 +107,11 @@ dependencies {
     testImplementation "org.hamcrest:hamcrest-library:$hamcrest_version"
     testImplementation "com.google.truth:truth:1.0"
 
+    //Spek
+    testImplementation 'org.junit.platform:junit-platform-engine:1.6.2'
+    testImplementation 'org.jetbrains.spek:spek-api:1.1.5'
+    testImplementation 'org.spekframework.spek2:spek-dsl-jvm:2.0.6'
+    testImplementation 'org.spekframework.spek2:spek-runner-junit5:2.0.6'
+    testImplementation 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+    testImplementation 'org.junit.platform:junit-platform-runner:1.4.0'
 }

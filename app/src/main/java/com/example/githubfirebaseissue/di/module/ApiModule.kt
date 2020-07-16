@@ -2,6 +2,8 @@ package com.example.githubfirebaseissue.di.module
 
 import com.example.githubfirebaseissue.api.ApiConstant
 import com.example.githubfirebaseissue.api.GithubApi
+import com.example.githubfirebaseissue.common.BaseSchedulerProvider
+import com.example.githubfirebaseissue.common.RxScheduler
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -28,4 +30,8 @@ class ApiModule {
         return retrofit.create(GithubApi::class.java)
     }
 
+    @Provides
+    fun provideRxScheduler(): RxScheduler {
+        return BaseSchedulerProvider()
+    }
 }

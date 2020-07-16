@@ -14,7 +14,11 @@ import org.mockito.MockitoAnnotations
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.githubfirebaseissue.common.Event
+import com.example.githubfirebaseissue.common.RxScheduler
 import com.jraska.livedata.TestObserver
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import io.reactivex.schedulers.Schedulers
 import junit.framework.Assert.assertEquals
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
@@ -35,23 +39,29 @@ class MainViewModelTest {
 
     @Mock
     lateinit var fireBaseUseCase: GetFireBaseIssueUseCase
-
+    lateinit var scheduler: RxScheduler
 
     private lateinit var viewModel: MainViewModel
     private lateinit var loadingJraskaTestObserver: TestObserver<Boolean>
     private lateinit var loadingJraskaTestStates: List<Boolean>
 
 
-    @Mock lateinit var dataObserver: Observer<Event<List<Issue>>>
-    @Mock lateinit var loadingObserver: Observer<Boolean>
-    @Mock lateinit var errorObserver: Observer<Event<Throwable>>
+    @Mock
+    lateinit var dataObserver: Observer<Event<List<Issue>>>
+    @Mock
+    lateinit var loadingObserver: Observer<Boolean>
+    @Mock
+    lateinit var errorObserver: Observer<Event<Throwable>>
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = MainViewModel(fireBaseUseCase)
+        scheduler = mock {
+            on { io } doReturn Schedulers.trampoline()
+            on { main } doReturn Schedulers.trampoline()
+        }
+        viewModel = MainViewModel(fireBaseUseCase, scheduler)
     }
-
 
 
     @Test
@@ -72,7 +82,7 @@ class MainViewModelTest {
         loadingJraskaTestObserver.assertHistorySize(2)
         assertEquals(true, loadingJraskaTestStates[0])
         assertEquals(false, loadingJraskaTestStates[1])
-        assertEquals(dataObserver.value().getContentIfNotHandled(),issueList)
+        assertEquals(dataObserver.value().getContentIfNotHandled(), issueList)
     }
 
     @Test
@@ -94,7 +104,7 @@ class MainViewModelTest {
         assertEquals(true, loadingJraskaTestStates[0])
         assertEquals(false, loadingJraskaTestStates[1])
         assertEquals(false, loadingJraskaTestStates[2])
-        assertEquals(errorObserver.value().getContentIfNotHandled(),throwable)
+        assertEquals(errorObserver.value().getContentIfNotHandled(), throwable)
     }
 
     @Test

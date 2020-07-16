@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubfirebaseissue.common.Event
+import com.example.githubfirebaseissue.common.RxScheduler
 import com.example.githubfirebaseissue.model.Comment
 import com.example.githubfirebaseissue.model.Issue
 import com.example.githubfirebaseissue.usecase.GetFireBaseIssueUseCase
@@ -13,7 +14,9 @@ import javax.inject.Inject
 import io.reactivex.schedulers.Schedulers
 
 
-class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUseCase) :
+class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUseCase,
+                                        private val scheduler : RxScheduler
+) :
     ViewModel() {
 
     private val _issueLiveData by lazy { MutableLiveData<Event<List<Issue>>>() }
@@ -32,8 +35,8 @@ class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUse
 
     fun fetchFireBaseIosIssueList() {
         val issueDisposable = useCase.getFireBaseIosIssues()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(scheduler.io)
+            .observeOn(scheduler.main)
             .doOnSubscribe { loadingState.value = true }
             .doOnEvent { _, _ -> loadingState.value = false }
             .doOnError { loadingState.value = false }
@@ -48,8 +51,8 @@ class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUse
 
     fun fetchIssueComments(number: Int) {
         val commentDisposable = useCase.getFireBaseIssuesComments(number)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(scheduler.io)
+            .observeOn(scheduler.main)
             .doOnSubscribe { loadingState.value = true }
             .doOnEvent { _, _ -> loadingState.value = false }
             .doOnError { loadingState.value = false }
