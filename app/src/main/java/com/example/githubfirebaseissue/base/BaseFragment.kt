@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.githubfirebaseissue.R
-import dagger.android.support.AndroidSupportInjection
 import okio.IOException
 import retrofit2.HttpException
 
@@ -18,7 +17,6 @@ import retrofit2.HttpException
 abstract class BaseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
     }
 

@@ -8,16 +8,16 @@ import com.example.githubfirebaseissue.common.RxScheduler
 import com.example.githubfirebaseissue.model.Comment
 import com.example.githubfirebaseissue.model.Issue
 import com.example.githubfirebaseissue.usecase.GetFireBaseIssueUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
-import io.reactivex.schedulers.Schedulers
 
 
-class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUseCase,
-                                        private val scheduler : RxScheduler
-) :
-    ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val useCase: GetFireBaseIssueUseCase,
+    private val scheduler: RxScheduler
+) : ViewModel() {
 
     private val _issueLiveData by lazy { MutableLiveData<Event<List<Issue>>>() }
     val issueLiveData: LiveData<Event<List<Issue>>> by lazy { _issueLiveData }
@@ -42,8 +42,7 @@ class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUse
             .doOnError { loadingState.value = false }
             .map { it.sortedByDescending { issue -> issue.updatedAt } }
             .subscribe(
-                { Event(it).run(_issueLiveData::postValue) }
-                ,
+                { Event(it).run(_issueLiveData::postValue) },
                 { Event(it).run(_apiError::postValue) }
             )
         disposable.add(issueDisposable)
@@ -68,6 +67,5 @@ class MainViewModel @Inject constructor(private val useCase: GetFireBaseIssueUse
         super.onCleared()
         disposable.clear()
     }
-
 
 }

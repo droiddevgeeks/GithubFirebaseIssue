@@ -1,24 +1,22 @@
 package com.example.githubfirebaseissue.di.module
 
-import com.example.githubfirebaseissue.api.GithubApi
 import com.example.githubfirebaseissue.repository.GithubRepository
 import com.example.githubfirebaseissue.repository.GithubRepositoryImpl
 import com.example.githubfirebaseissue.usecase.GetFireBaseIssueUseCase
 import com.example.githubfirebaseissue.usecase.GetFireBaseIssueUseCaseImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 
 @Module
-class RepositoryModule {
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
 
-    @Provides
-    fun provideGithubFirebaseUseCase(githubRepository: GithubRepository): GetFireBaseIssueUseCase {
-        return GetFireBaseIssueUseCaseImpl(githubRepository)
-    }
+    @Binds
+    abstract fun provideGithubFirebaseUseCase(useCaseImpl: GetFireBaseIssueUseCaseImpl): GetFireBaseIssueUseCase
 
-    @Provides
-    fun provideGithubRepository(githubApi: GithubApi): GithubRepository {
-        return GithubRepositoryImpl(githubApi)
-    }
+    @Binds
+    abstract fun provideGithubRepository(repoImpl: GithubRepositoryImpl): GithubRepository
 }

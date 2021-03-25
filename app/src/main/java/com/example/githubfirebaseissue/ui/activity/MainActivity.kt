@@ -6,7 +6,9 @@ import com.example.githubfirebaseissue.R
 import com.example.githubfirebaseissue.base.BaseActivity
 import com.example.githubfirebaseissue.callback.IFragmentChangeCallback
 import com.example.githubfirebaseissue.ui.fragment.IssuesFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(), IFragmentChangeCallback {
 
     override fun getLayoutRes() = R.layout.activity_main
