@@ -1,10 +1,10 @@
 package com.example.githubfirebaseissue.di.module
 
+import android.content.Context
 import android.util.Log
 import com.example.githubfirebaseissue.GithubApplication
 import com.example.githubfirebaseissue.api.ApiConstant.Companion.HEADER_CACHE_CONTROL
 import com.example.githubfirebaseissue.api.ApiConstant.Companion.HEADER_PRAGMA
-import com.example.githubfirebaseissue.di.scope.AppScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.*
@@ -12,16 +12,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.io.File
 import okhttp3.CacheControl
 import com.example.githubfirebaseissue.helper.ApplicationUtil
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.TimeUnit
 
 
 @Module
+@InstallIn(SingletonComponent::class)
 class InterceptorModule {
 
     @Provides
-    @AppScope
     fun provideOkHttpClient(
-        context: GithubApplication,
+        @ApplicationContext context: Context,
         interceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
@@ -34,7 +37,6 @@ class InterceptorModule {
 
 
     @Provides
-    @AppScope
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -42,7 +44,7 @@ class InterceptorModule {
     }
 
 
-    private fun provideCache(context: GithubApplication): Cache? {
+    private fun provideCache(context: Context): Cache? {
         var cache: Cache? = null
         try {
             cache = Cache(File(context.cacheDir, "http-cache"), 10 * 1024 * 1024)
@@ -53,7 +55,7 @@ class InterceptorModule {
     }
 
     private fun provideOfflineCacheInterceptor(
-        context: GithubApplication,
+        context: Context,
         chain: Interceptor.Chain
     ): Response {
         var request = chain.request()
@@ -74,7 +76,7 @@ class InterceptorModule {
     }
 
     private fun provideCacheInterceptor(
-        context: GithubApplication,
+        context: Context,
         chain: Interceptor.Chain
     ): Response {
         val response = chain.proceed(chain.request())

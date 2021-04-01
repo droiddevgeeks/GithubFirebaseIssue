@@ -1,15 +1,14 @@
 package com.example.githubfirebaseissue.base
 
 import android.os.Bundle
-import dagger.android.AndroidInjection
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
     }

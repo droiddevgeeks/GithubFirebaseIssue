@@ -1,13 +1,8 @@
 package com.example.githubfirebaseissue
 
-import com.example.githubfirebaseissue.di.component.DaggerApplicationComponent
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
 
-class GithubApplication : DaggerApplication() {
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.factory().create(this)
-    }
-}
+@HiltAndroidApp
+class GithubApplication : Application()
